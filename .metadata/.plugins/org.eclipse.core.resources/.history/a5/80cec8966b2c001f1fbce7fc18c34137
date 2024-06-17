@@ -1,0 +1,57 @@
+package com.assignment.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.assignment.exception.ResourceNotFoundException;
+import com.assignment.model.Model;
+import com.assignment.repository.Repository;
+
+
+@Service
+public class ServiceClass {
+
+    @Autowired
+    private Repository repository;
+
+    public List<Model> getAllUsers() {
+        return repository.findAll();
+    }
+
+    package com.example.project.service;
+
+    import com.example.project.model.Model;
+    import com.example.project.repository.Repository;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.stereotype.Service;
+
+    import java.util.List;
+    import java.util.Optional;
+
+    @Service
+    public class Service {
+
+        @Autowired
+        private Repository repository;
+
+        public List<Model> getAllUsers() {
+            return repository.findAll();
+        }
+
+        public Optional<Model> getUserByUsername(String username) {
+            List<Model> users = repository.findUserByUsername(username);
+            if (users.isEmpty()) {
+                return Optional.empty();
+            }
+            return Optional.of(users.get(0));
+        }
+
+        public Model createUser(Model user) {
+            return repository.save(user);
+        }
+    }
+
+}

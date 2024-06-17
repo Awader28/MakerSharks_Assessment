@@ -1,0 +1,45 @@
+package com.assignment.service;
+
+import java.util.List;
+import java.util.Optional;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.assignment.repository.Repository;
+
+@Service
+public class Service {
+
+    @Autowired
+    private Repository Repository;
+
+    public List<Model> getAllUsers() {
+        return Repository.findAll();
+    }
+
+    public Optional<User> getUserById(int userId) {
+        return userRepository.findById(userId);
+    }
+
+    public List<User> getUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
+
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public User updateUser(int userId, User userDetails) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+        user.setUsername(userDetails.getUsername());
+        user.setEmail(userDetails.getEmail());
+        user.setPassword(userDetails.getPassword());
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(int userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+        userRepository.delete(user);
+    }
+}

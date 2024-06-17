@@ -1,0 +1,8 @@
+package com.assignment.repository;
+
+public class Repository {
+
+	public interface AvionRepository extends CrudRepository<Avion, Long> {
+		List<Avion> findFlightByfdestination(String fdestination);
+	}
+}

@@ -1,0 +1,48 @@
+package com.example.project.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.assignment.model.Model;
+import com.assignment.repository.Repository;
+import com.example.project.exception.ResourceNotFoundException;
+
+@Service
+public class Service {
+
+    @Autowired
+    private Repository repository;
+
+    public List<Model> getAllUsers() {
+        return repository.findAll();
+    }
+
+    public Optional<Model> getUserById(int userId) {
+        return repository.findById(userId);
+    }
+
+    public List<Model> getUserByUsername(String username) {
+        return repository.findUserByUsername(username);
+    }
+
+    public Model createUser(Model user) {
+        return repository.save(user);
+    }
+
+    public Model updateUser(int userId, Model userDetails) {
+        Model user = repository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+        user.setUsername(userDetails.getUsername());
+        user.setEmail(userDetails.getEmail());
+        user.setPassword(userDetails.getPassword());
+        return repository.save(user);
+    }
+
+    public void deleteUser(int userId) {
+        Model user = repository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+        repository.delete(user);
+    }
+}

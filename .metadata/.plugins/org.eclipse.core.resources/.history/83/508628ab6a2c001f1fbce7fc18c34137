@@ -1,0 +1,51 @@
+package com.example.project.controller;
+
+import com.example.project.model.Model;
+import com.example.project.service.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/users")
+public class Controller {
+
+    @Autowired
+    private ServiceClass service;
+
+    @GetMapping
+    public List<Model> getAllUsers() {
+        return service.getAllUsers();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Model> getUserById(@PathVariable int id) {
+        Model user = service.getUserById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + id));
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/username/{username}")
+    public List<Model> getUserByUsername(@PathVariable String username) {
+        return service.getUserByUsername(username);
+    }
+
+    @PostMapping
+    public Model createUser(@RequestBody Model user) {
+        return service.createUser(user);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Model> updateUser(@PathVariable int id, @RequestBody Model userDetails) {
+        Model updatedUser = service.updateUser(id, userDetails);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+        service.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+}

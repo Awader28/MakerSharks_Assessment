@@ -1,0 +1,12 @@
+package com.assignment.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import ch.qos.logback.core.model.Model;
+
+public interface Repository extends JpaRepository<Model, Integer> {
+		List<Model> findUserByUserName(String username);
+	}
+
