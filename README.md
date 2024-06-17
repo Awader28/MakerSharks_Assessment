@@ -48,9 +48,5 @@ create table registration(
 );
 ```
 ### 8. Build and Run the Application
-You can build and run the application using Maven:
-```bash
-mvn clean install
-java -jar target/MakerSharksTest-0.0.1-SNAPSHOT.jar
-```
-Alternatively, you can run it directly from your IDE by running the main class YourProjectApplication.
+You can build and run the application using Maven or,
+Alternatively, you can run it directly from your IDE by running the main class TestApi.java.
